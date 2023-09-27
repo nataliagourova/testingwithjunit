@@ -1,0 +1,18 @@
+package rxwriter.prescription;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DurationParserTest {
+    @Test
+    public void parseDurationWithValidUnitAndQuantity() {
+        doSomething();
+        assertEquals(14, DurationParser.parseDays("2 weeks"));
+        assertEquals(30, DurationParser.parseDays("1 month"));
+    }
+ /*   it's preferred to have a single assertion per test method*/
+    private void doSomething(){
+        System.out.println("do something!");
+    }
+}
