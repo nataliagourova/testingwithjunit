@@ -1,7 +1,6 @@
 package rxwriter.drug;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import rxwriter.drug.database.DrugRecord;
 import rxwriter.drug.database.DrugSource;
@@ -12,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 //import static org.mockito.Mockito.*;
 
+@DisplayName("DrugService should xyz")
 class DrugServiceTest implements DrugSource {
 
     private DrugService drugService;
@@ -27,6 +27,8 @@ class DrugServiceTest implements DrugSource {
     }
 
     @Test
+    @DisplayName("return drugs from the database sorted by drug name")
+    @Tag("database") //this annotation will help and filter tests when running
     void drugsAreReturnedSorted(){
 //        DrugService service = new DrugService(this);
 //        List<DrugRecord> drugsFound = new ArrayList<>();
@@ -43,14 +45,29 @@ class DrugServiceTest implements DrugSource {
         assertEquals("aspirin", foundDrugs.get(1).drugName());
     }
 
-    @Test
-    void throwsExceptionOnEmptyStartsWith(){
-//        DrugService service = new DrugService(this);
-        Exception thrown = assertThrows(IllegalArgumentException.class, ()-> drugService.findDrugsStartingWith(" "));
-        System.out.println(thrown.getMessage());
-    }
+//    @Disabled("put in the reason like so")  //this tag temporarily disables this specific test
+    @Nested
+    @DisplayName("throw an illegal argument exception")
+    class ThrowsExceptionTests{
+        @Test
+        @DisplayName("when passed a blank string for startingWith")
+        void throwsExceptionOnBlankStartsWith(){
+    //        DrugService service = new DrugService(this);
+            Exception thrown = assertThrows(IllegalArgumentException.class, ()-> drugService.findDrugsStartingWith(" "));
+            System.out.println(thrown.getMessage());
+        }
+        @Test
+        @DisplayName("when passed an empty string for startingWith")
+        void throwsExceptionOnEmptyStartsWith(){
+            //        DrugService service = new DrugService(this);
+            Exception thrown = assertThrows(IllegalArgumentException.class, ()-> drugService.findDrugsStartingWith(""));
+            System.out.println(thrown.getMessage());
+        }
+}
+
 
     @Test
+    @DisplayName("when passed an empty string for startingWith")
     void setsDrugPropertiesCorrectly(){
         DrugService service = new DrugService(this);
         List<DispensableDrug> foundDrugs = service.findDrugsStartingWith("aspirin");
